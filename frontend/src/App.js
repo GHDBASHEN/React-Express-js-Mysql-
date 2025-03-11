@@ -12,20 +12,35 @@ function App() {
   }, []);
 
   const fetchUsers = async () => {
-    const response = await axios.get('http://localhost:5000/users');
-    setUsers(response.data);
+    try {
+        const response = await axios.get('http://localhost:5000/users');
+        setUsers(response.data);
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        alert('Failed to fetch users. Please try again later.');
+    }
   };
 
   const addUser = async () => {
-    const response = await axios.post('http://localhost:5000/users', { name, email });
-    setUsers([...users, response.data]);
-    setName('');
-    setEmail('');
+    try {
+        const response = await axios.post('http://localhost:5000/users', { name, email });
+        setUsers([...users, response.data]);
+        setName('');
+        setEmail('');
+    } catch (error) {
+        console.error('Error adding user:', error);
+        alert('Failed to add user. Please try again later.');
+    }
   };
 
   const deleteUser = async (id) => {
-    await axios.delete(`http://localhost:5000/users/${id}`);
-    setUsers(users.filter(user => user.id !== id));
+    try {
+        await axios.delete(`http://localhost:5000/users/${id}`);
+        setUsers(users.filter(user => user.id !== id));
+    } catch (error) {
+        console.error('Error deleting user:', error);
+        alert('Failed to delete user. Please try again later.');
+    }
   };
 
   return (
